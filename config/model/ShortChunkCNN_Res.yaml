@@ -1,0 +1,11 @@
+cls: ShortChunkCNN_Res
+
+cfg:
+  sr: 16000
+  channel: mono
+  out_channels: 32
+  n_fft: 1024
+  hop_length: 512
+  n_mels: 128
+  n_class: 6
+

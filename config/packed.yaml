@@ -1,0 +1,60 @@
+# Billboard-trained era classifier — the camera-ready training configuration.
+# Six architectures x seeds 77/78/79 = the 18 runs reported in the paper.
+#
+#   python train.py --config-name=packed model=Baseline train.seed=77
+#
+# Audio roots default to ./data and ./kpop_data (see README "Data layout").
+# Override without editing this file:
+#   BILLBOARD_AUDIO_ROOT=/mnt/billboard MELON_AUDIO_ROOT=/mnt/melon python train.py ...
+
+hydra:
+  run:
+    dir: .
+
+defaults:
+  - model: Baseline
+
+data:
+  dir_path: ${oc.env:BILLBOARD_AUDIO_ROOT,data}
+  df_path: csv/billboard_hot100_chosen.csv
+  json_path: csv/billboard_artist_split.json
+  adv_dir_path: ${oc.env:MELON_AUDIO_ROOT,kpop_data}
+  adv_df_path: csv/korean_melon_meta_chosen.csv
+  adv_json_path: csv/kpop_artist_split.json
+
+train:
+  seed: 77                      # seeds python/numpy/torch/cuda; the paper uses 77, 78, 79
+  batch_size: 64
+  learning_rate: 1e-4
+  iterations_per_chunk: 30000   # total optimizer steps (historical name)
+  validation_freq: 500
+  num_chunks: 1                 # dead, kept so the config shape matches the released runs
+  high_to_low_weight: 1         # hierarchical-consistency loss weights (both active)
+  low_to_high_weight: 1
+  adversarial_loss_weight: 0    # no domain-adversarial loss in the paper
+
+train_model_with_chunks:
+  json_path: ${data.json_path}  # dead, see README "Known quirks"
+  cycles: 1
+  num_chunks: ${train.num_chunks}
+
+train_set:
+  dir_path: ${data.dir_path}
+  df_path: ${data.df_path}
+  json_path: ${data.json_path}
+  sr: ${model.cfg.sr}
+  channel: ${model.cfg.channel}
+  clip_len: 30
+  data_type: billboard
+  equalize: True                # per-epoch decade-balanced undersampling
+
+valid_test:
+  dir_path: ${data.dir_path}
+  df_path: ${data.df_path}
+  json_path: ${data.json_path}
+  sr: ${model.cfg.sr}
+  channel: ${model.cfg.channel}
+  clip_len: 30
+  data_type: billboard
+  equalize: False
+

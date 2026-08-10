@@ -1,0 +1,6 @@
+cls: Musicnn
+
+cfg:
+  sr: 16000
+  channel: mono
+  n_class: 6

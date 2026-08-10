@@ -1,0 +1,51 @@
+[project]
+name = "billboard-melon-era"
+version = "1.0.0"
+description = "Cross-domain era classification between Billboard and Melon charts (ISMIR 2026)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+# The released runs used torch 2.0.0+cu118 / torchaudio 2.0.1+cu118 on NVIDIA RTX A5000
+# (CUDA 11.8), Python 3.10.12. Newer torch reproduces the analysis identically; exact
+# bit-level agreement of a *retrain* is only expected on the same torch/CUDA/GPU.
+dependencies = [
+    "torch>=2.0",
+    "torchaudio>=2.0",
+    "numpy>=1.24,<2",
+    "pandas>=2.0",
+    "hydra-core>=1.3",
+    "omegaconf>=2.3",
+    "tqdm>=4.65",
+    "wandb>=0.15",
+    "matplotlib>=3.7",
+    "seaborn>=0.13",
+    "scipy>=1.10",
+    "scikit-learn>=1.3",
+    "pillow>=9.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+# Only needed for utils.plot.plot_umap*, which no paper figure uses.
+umap = ["umap-learn>=0.5"]
+# Only needed for preprocess.py (decoding source audio to .pt caches).
+preprocess = ["librosa>=0.10", "soundfile>=0.12"]
+# Only needed for data_prep/resolve_youtube_ids.py (chart entry -> YouTube ID).
+data-prep = ["yt-dlp>=2024.1.1"]
+
+[project.urls]
+Paper = "https://ismir2026.ismir.net/"
+Repository = "https://github.com/malerlab/billboard-melon-era"
+
+[tool.uv]
+# Torch wheels come from PyTorch's CUDA 11.8 index; everything else from PyPI.
+# Drop this section (or change the index) to build against a different CUDA.
+[[tool.uv.index]]
+name = "pytorch-cu118"
+url = "https://download.pytorch.org/whl/cu118"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu118" }
+torchaudio = { index = "pytorch-cu118" }

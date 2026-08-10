@@ -1,0 +1,26 @@
+billboard-melon-era
+Copyright (c) 2026 Music and Audio Learning Lab (MALer Lab), Sogang University
+
+This product includes software derived from sota-music-tagging-models
+(https://github.com/minzwon/sota-music-tagging-models), Copyright (c) 2020
+Minz Won, licensed under the MIT License.
+
+The FCN, ShortChunkCNN, ShortChunkCNN_Res, Musicnn and CRNN architectures in
+`model_zoo.py`, and the convolutional blocks in `modules.py`, are ported from
+that repository and adapted for hierarchical era classification (four softmax
+heads over decade / half-decade / quarter-decade / year, plus a hierarchical
+consistency loss). The original architectures are described in:
+
+  Won et al., "Evaluation of CNN-based automatic music tagging models",
+  SMC 2020.
+  Choi et al., "Automatic tagging using deep convolutional neural networks",
+  ISMIR 2016.
+  Choi et al., "Convolutional recurrent neural networks for music
+  classification", ICASSP 2017.
+  Pons et al., "End-to-end learning for music audio tagging at scale",
+  ISMIR 2017.
+
+Billboard Hot 100 chart entries in `csv/` are derived from the Billboard Hot
+100 chart data compiled at https://github.com/utdata/rwd-billboard-data.
+Melon chart entries are derived from the Melon year-end and weekly charts.
+Neither this repository nor its releases distribute any audio recordings.

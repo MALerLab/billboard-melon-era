@@ -1,0 +1,10 @@
+cls: Baseline
+
+cfg:
+  sr: 16000
+  channel: mono
+  out_channels: 64
+  n_fft: 1024
+  hop_length: 512
+  n_mels: 48
+  n_class: 6

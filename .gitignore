@@ -1,0 +1,25 @@
+# Audio corpora and derived tensor caches (hundreds of GB, not redistributable)
+/data
+/kpop_data
+*.pt
+!config/**/*.yaml
+
+# Training and inference outputs
+/weights/
+/best_model/
+/figs_regen/
+/tables_out/
+/logs/
+wandb/
+.hydra/
+*.log
+
+# Environment
+.venv/
+__pycache__/
+*.py[cod]
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
