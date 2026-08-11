@@ -30,6 +30,7 @@ GPU, or retraining.
 git clone https://github.com/malerlab/billboard-melon-era
 cd billboard-melon-era
 uv sync                                    # creates .venv and installs everything
+source .venv/bin/activate                  # or prefix each command with `uv run`
 
 # fetch the released artifacts into best_model/
 gh release download -R malerlab/billboard-melon-era --pattern 'best_model.tar.gz'
@@ -39,6 +40,9 @@ bash scripts/reproduce_tables_and_figures.sh
 ```
 
 Tables land in `tables_out/`, figures in `figs_regen/`.
+
+The `scripts/` drivers find `.venv/bin/python` on their own, so they work without
+activating; override with `PYTHON=/path/to/python`.
 
 Without `uv`, any environment with `torch`, `numpy`, `pandas`, `matplotlib`, `seaborn`,
 `scipy` and `scikit-learn` works; see `pyproject.toml` for the pinned set. The analysis half
